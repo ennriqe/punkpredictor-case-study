@@ -2,6 +2,16 @@
 
 Public case study of the production ML and quant research system behind [PunkPredictor](https://punkpredictor.xyz), a CryptoPunks valuation platform.
 
+Last updated: Feb 2026.
+
+## Start Here
+
+- [Architecture](docs/architecture.md)
+- [Operations](docs/operations.md)
+- [Evaluation](docs/evaluation.md)
+
+![Sanitized architecture preview](docs/architecture-preview.svg)
+
 This repository intentionally excludes private source code and secrets. It documents the system design, release workflow, evaluation discipline, and operational decisions used in production.
 
 ## Why This Exists
@@ -13,6 +23,8 @@ The production monorepo is private. This case study provides a concrete artifact
 - release gates (contender/champion promotion + rollback)
 - scheduled operations and deployment automation
 - quant-style evaluation against a passive benchmark
+
+It evolved from the earlier public prototype repo ([Predict-CryptoPunks-Price](https://github.com/ennriqe/Predict-CryptoPunks-Price)) into a niche live product with real users and ongoing production operations.
 
 ## System Overview
 
