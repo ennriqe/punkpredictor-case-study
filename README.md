@@ -6,25 +6,13 @@ Last updated: Feb 2026.
 
 ## Start Here
 
-- [Architecture](docs/architecture.md)
-- [Operations](docs/operations.md)
-- [Evaluation](docs/evaluation.md)
+- [Architecture](docs/architecture.md) — component map, layer responsibilities, and design rationale
+- [Operations](docs/operations.md) — scheduled jobs and release lifecycle
+- [Evaluation](docs/evaluation.md) — promotion gates and benchmarking philosophy
 
 ![Sanitized architecture preview](docs/architecture-preview.svg)
 
 This repository intentionally excludes private source code and secrets. It documents the system design, release workflow, evaluation discipline, and operational decisions used in production.
-
-## Why This Exists
-
-The production monorepo is private. This case study provides a concrete artifact that demonstrates:
-
-- end-to-end production ML ownership
-- reproducible training and inference workflows
-- release gates (contender/champion promotion + rollback)
-- scheduled operations and deployment automation
-- quant-style evaluation against a passive benchmark
-
-It evolved from the earlier public prototype repo ([Predict-CryptoPunks-Price](https://github.com/ennriqe/Predict-CryptoPunks-Price)) into a niche live product with real users and ongoing production operations.
 
 ## System Overview
 
@@ -36,30 +24,48 @@ PunkPredictor combines a public web app, backend APIs, and a DB-first model pipe
 - **Infra**: VPS timers/services for nowcasting and model lifecycle workers
 - **Storage**: Postgres + S3 artifact/snapshot archiving
 
-See `/docs/architecture.md` for the sanitized architecture and `/docs/operations.md` for the runtime lifecycle.
+The production monorepo is private. This case study provides a concrete artifact that demonstrates:
+
+- end-to-end production ML ownership
+- reproducible training and inference workflows
+- release gates (contender/champion promotion + rollback)
+- scheduled operations and deployment automation
+- quant-style evaluation against a passive benchmark
+
+It evolved from the earlier public prototype repo ([Predict-CryptoPunks-Price](https://github.com/ennriqe/Predict-CryptoPunks-Price)) into a niche live product with real users and ongoing production operations.
 
 ## Production Lifecycle (High Level)
 
-1. Scheduled inference cycle runs on a VPS every 30 minutes
-2. Fresh sales/market/helper tables are updated
-3. Snapshot + nowcasts are rebuilt and published via a pointer-swap table
-4. Artifacts/snapshots are archived to S3
-5. A daily policy check evaluates retrain triggers (drift/performance)
-6. Hourly workers process queued training requests
-7. Contenders are evaluated against promotion gates
-8. Promoted models are monitored; rollback triggers can revert pointers automatically
+Four independent timer-driven loops run on VPS:
+
+**Inference cycle (every 30 min)**
+1. Fresh sales, market, and helper tables are updated
+2. Snapshot + nowcasts are rebuilt and published via a pointer-swap table
+3. Artifacts/snapshots are archived to S3
+
+**Retrain policy check (daily)**
+4. Drift and performance conditions are evaluated; a training request is enqueued when thresholds are met
+
+**Training queue worker (hourly)**
+5. A queued training request is claimed and run on ephemeral compute
+6. The contender is evaluated against promotion gates and a promotion decision is recorded
+
+**Post-promotion monitor (hourly)**
+7. The promoted model's live behavior is tracked; rollback triggers can revert pointers automatically
 
 ## Public Metrics (Example Snapshot Methodology)
 
 Metrics evolve as new sales complete. The examples below describe the evaluation style and a representative public snapshot methodology (see `/docs/metrics.md`).
 
 ### Valuation quality (CV-aligned summary, Feb 2026)
+Live: [punkpredictor.xyz/performance](https://punkpredictor.xyz/performance)
 - 2,807 sales
 - MAPE 6.92%
 - Median APE 4.68%
 - Signed bias -0.80%
 
 ### Strategy-style validation (CV-aligned summary, Feb 2026)
+Live: [punkpredictor.xyz/backtest](https://punkpredictor.xyz/backtest)
 - Forward/live predictions only (not retroactive)
 - Sharpe 2.23 vs 1.57 passive baseline
 - Max drawdown 16.32% vs 41.02% passive baseline

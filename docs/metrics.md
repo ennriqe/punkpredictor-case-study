@@ -11,12 +11,14 @@ This case study uses:
 ## CV-Aligned Headline Metrics (Feb 2026)
 
 ### Valuation quality
+Live: [punkpredictor.xyz/performance](https://punkpredictor.xyz/performance)
 - 2,807 sales
 - MAPE 6.92%
 - Median APE 4.68%
 - Signed bias -0.80%
 
 ### Strategy-style evaluation (forward/live predictions)
+Live: [punkpredictor.xyz/backtest](https://punkpredictor.xyz/backtest)
 - Sharpe 2.23 vs 1.57 passive baseline
 - Max drawdown 16.32% vs 41.02% passive baseline
 

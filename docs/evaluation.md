@@ -2,7 +2,7 @@
 
 ## Core Principle
 
-A model is not considered "better" because it scores well on one offline split. The production workflow evaluates contenders through staged checks before they can become the active model.
+A model is not considered "better" because it scores well on one offline split. The production workflow evaluates contenders through staged checks before they can replace the current champion model.
 
 ## Evaluation Layers
 
@@ -13,7 +13,7 @@ A model is not considered "better" because it scores well on one offline split. 
 - reproducible run artifacts with metadata
 
 ### Model-vs-online comparison
-- contender compared against the currently active model
+- contender compared against the current champion model
 - comparison artifacts generated before promotion decisions
 - intended to catch regressions hidden by absolute metrics
 
@@ -27,4 +27,4 @@ A model is not considered "better" because it scores well on one offline split. 
 
 ## Quant Research Alignment
 
-Model quality is not the only objective. The system also supports risk-adjusted benchmark comparisons (e.g., Sharpe and drawdown versus a passive baseline) using forward/live predictions rather than retroactive signal generation.
+Model quality is not the only objective. The system also supports risk-adjusted benchmark comparisons (e.g., Sharpe and drawdown versus a passive baseline) using forward/live predictions rather than retroactive signal generation. Public results: [punkpredictor.xyz/backtest](https://punkpredictor.xyz/backtest).

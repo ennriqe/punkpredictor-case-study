@@ -24,7 +24,7 @@ flowchart TD
 ## Responsibilities by Layer
 
 ### Frontend / Web
-- Serves public pages and user-facing valuation/performance views
+- Serves public pages and user-facing valuation/performance views ([punkpredictor.xyz/performance](https://punkpredictor.xyz/performance), [/backtest](https://punkpredictor.xyz/backtest))
 - Uses API proxy handlers to keep client interactions simple and stable
 
 ### Backend API
