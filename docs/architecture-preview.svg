@@ -1,72 +1,112 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="980" height="440" viewBox="0 0 980 440" role="img" aria-label="Sanitized PunkPredictor architecture preview">
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="520" viewBox="0 0 1120 520" role="img" aria-label="Sanitized PunkPredictor architecture preview">
   <defs>
     <style>
       .bg { fill: #ffffff; }
-      .title { font: 700 18px -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif; fill: #111827; }
-      .label { font: 600 13px -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif; fill: #111827; }
-      .small { font: 500 12px -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif; fill: #374151; }
-      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.5; rx: 10; ry: 10; }
-      .group { fill: #f1f5f9; stroke: #94a3b8; stroke-width: 1.2; rx: 12; ry: 12; }
+      .title { font: 700 20px -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif; fill: #111827; }
+      .subtitle { font: 500 12px -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif; fill: #475569; }
+      .h { font: 700 14px -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif; fill: #0f172a; }
+      .t { font: 500 11px -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif; fill: #334155; }
+      .t2 { font: 500 10px -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif; fill: #475569; }
+      .group { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.5; rx: 14; ry: 14; }
+      .card { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.3; rx: 10; ry: 10; }
       .accent { fill: #eff6ff; stroke: #60a5fa; }
       .arrow { stroke: #475569; stroke-width: 2; fill: none; marker-end: url(#m); }
-      .dashed { stroke-dasharray: 6 5; }
+      .stepArrow { stroke: #64748b; stroke-width: 1.8; fill: none; marker-end: url(#m2); }
+      .chip { fill: #eef2ff; stroke: #c7d2fe; stroke-width: 1; rx: 999; ry: 999; }
+      .chipText { font: 600 11px -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif; fill: #3730a3; }
     </style>
     <marker id="m" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
       <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
     </marker>
+    <marker id="m2" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#64748b"/>
+    </marker>
   </defs>
 
-  <rect class="bg" x="0" y="0" width="980" height="440"/>
-  <text class="title" x="28" y="34">PunkPredictor (Sanitized) - Production ML + Quant Research System</text>
+  <rect class="bg" x="0" y="0" width="1120" height="520"/>
 
-  <rect class="group" x="24" y="56" width="300" height="156"/>
-  <text class="label" x="42" y="82">User-facing stack</text>
-  <rect class="box" x="42" y="98" width="118" height="48"/>
-  <text class="label" x="66" y="127">Web UI</text>
-  <text class="small" x="64" y="143">(Vercel)</text>
-  <rect class="box" x="186" y="98" width="118" height="48"/>
-  <text class="label" x="200" y="127">Backend API</text>
-  <text class="small" x="208" y="143">(Flask / Heroku)</text>
-  <rect class="box" x="114" y="160" width="118" height="36"/>
-  <text class="small" x="133" y="183">Serving metrics / valuations</text>
+  <text class="title" x="28" y="36">PunkPredictor (Sanitized) - Production ML + Quant Research System</text>
+  <text class="subtitle" x="28" y="56">High-level architecture only. Private code, implementation details, and deployment topology remain private.</text>
 
-  <rect class="group" x="348" y="56" width="304" height="230"/>
-  <text class="label" x="366" y="82">Model lifecycle (VPS timers + workers)</text>
-  <rect class="box accent" x="366" y="98" width="268" height="40"/>
-  <text class="small" x="384" y="123">Inference cycle (30m): refresh data, rebuild snapshots, publish nowcasts</text>
-  <rect class="box" x="366" y="148" width="268" height="34"/>
-  <text class="small" x="397" y="170">Retrain policy check (daily): drift / performance triggers</text>
-  <rect class="box" x="366" y="192" width="268" height="34"/>
-  <text class="small" x="410" y="214">Training worker (hourly): train contender + evaluate gates</text>
-  <rect class="box" x="366" y="236" width="268" height="34"/>
-  <text class="small" x="396" y="258">Post-promotion monitor (hourly): auto-rollback on degradation</text>
+  <!-- Left: user-facing -->
+  <rect class="group" x="24" y="82" width="286" height="194"/>
+  <text class="h" x="42" y="108">User-facing stack</text>
 
-  <rect class="group" x="676" y="56" width="280" height="300"/>
-  <text class="label" x="694" y="82">State, storage, and release control</text>
-  <rect class="box" x="694" y="98" width="244" height="48"/>
-  <text class="label" x="758" y="126">Postgres</text>
-  <text class="small" x="734" y="142">serving + pipeline tables</text>
-  <rect class="box" x="694" y="160" width="244" height="48"/>
-  <text class="label" x="764" y="188">S3</text>
-  <text class="small" x="733" y="204">artifacts + snapshots archive</text>
-  <rect class="box" x="694" y="222" width="244" height="60"/>
-  <text class="label" x="726" y="248">Current pointer + release gates</text>
-  <text class="small" x="716" y="265">contender/champion promotion + rollback</text>
-  <rect class="box" x="694" y="296" width="244" height="44"/>
-  <text class="small" x="726" y="322">Benchmarking + performance outputs</text>
+  <rect class="card" x="42" y="122" width="116" height="50"/>
+  <text class="h" x="73" y="151">Web UI</text>
+  <text class="t2" x="65" y="166">Vercel</text>
 
-  <path class="arrow" d="M160 122 L186 122"/>
-  <path class="arrow" d="M304 122 L366 122"/>
-  <path class="arrow" d="M500 138 L500 148"/>
-  <path class="arrow" d="M500 182 L500 192"/>
-  <path class="arrow" d="M500 226 L500 236"/>
-  <path class="arrow" d="M634 118 L694 118"/>
-  <path class="arrow" d="M634 170 L694 170"/>
-  <path class="arrow" d="M634 209 L694 244"/>
-  <path class="arrow" d="M634 253 L694 252"/>
-  <path class="arrow dashed" d="M816 222 L816 208"/>
-  <path class="arrow dashed" d="M816 222 L816 146"/>
-  <path class="arrow" d="M694 118 L304 180"/>
+  <rect class="card" x="176" y="122" width="116" height="50"/>
+  <text class="h" x="192" y="151">Backend API</text>
+  <text class="t2" x="198" y="166">Flask / Heroku</text>
 
-  <text class="small" x="24" y="395">Sanitized overview. Exact implementation details, private code, and deployment topology remain private.</text>
+  <path class="arrow" d="M158 147 L176 147"/>
+
+  <rect class="card" x="94" y="194" width="170" height="54"/>
+  <text class="t" x="110" y="219">Public valuation + performance</text>
+  <text class="t2" x="123" y="236">endpoints and pages</text>
+
+  <path class="arrow" d="M234 172 L234 194"/>
+
+  <!-- Middle: lifecycle -->
+  <rect class="group" x="346" y="82" width="312" height="336"/>
+  <text class="h" x="364" y="108">Model lifecycle (VPS timers + workers)</text>
+
+  <rect class="card accent" x="364" y="124" width="276" height="52"/>
+  <text class="t" x="382" y="147">Inference cycle (every 30 min)</text>
+  <text class="t2" x="382" y="164">refresh data -> rebuild snapshots</text>
+  <text class="t2" x="382" y="175">publish predictions</text>
+
+  <rect class="card" x="364" y="194" width="276" height="52"/>
+  <text class="t" x="382" y="215">Retrain policy check (daily)</text>
+  <text class="t2" x="382" y="229">drift/performance triggers</text>
+  <text class="t2" x="382" y="240">queue retrain request</text>
+
+  <rect class="card" x="364" y="264" width="276" height="46"/>
+  <text class="t" x="382" y="279">Training worker (hourly)</text>
+  <text class="t2" x="382" y="295">train contender + run gates</text>
+
+  <rect class="card" x="364" y="334" width="276" height="46"/>
+  <text class="t" x="382" y="343">Post-promotion monitor (hourly)</text>
+  <text class="t2" x="382" y="359">monitor live metrics</text>
+  <text class="t2" x="382" y="370">rollback if degraded</text>
+
+  <path class="stepArrow" d="M502 182 L502 194"/>
+  <path class="stepArrow" d="M502 246 L502 264"/>
+  <path class="stepArrow" d="M502 310 L502 334"/>
+
+  <rect class="chip" x="436" y="392" width="132" height="22"/>
+  <text class="chipText" x="455" y="407">policy + gate driven</text>
+
+  <!-- Right: state -->
+  <rect class="group" x="694" y="82" width="402" height="336"/>
+  <text class="h" x="712" y="108">State, storage, release control</text>
+
+  <rect class="card" x="712" y="124" width="366" height="58"/>
+  <text class="h" x="778" y="150">Postgres</text>
+  <text class="t2" x="759" y="167">serving tables + pipeline state</text>
+
+  <rect class="card" x="712" y="198" width="366" height="52"/>
+  <text class="h" x="804" y="223">S3</text>
+  <text class="t2" x="760" y="240">artifacts + snapshots archive</text>
+
+  <rect class="card" x="712" y="266" width="366" height="68"/>
+  <text class="t" x="738" y="288">Current pointer + release gates</text>
+  <text class="t2" x="736" y="305">contender/champion promotion + rollback support</text>
+
+  <rect class="card" x="712" y="350" width="366" height="46"/>
+  <text class="t2" x="746" y="378">benchmarking + performance outputs</text>
+
+  <!-- Cross-group arrows (only horizontal) -->
+  <path class="arrow" d="M310 147 L346 147"/>
+  <path class="arrow" d="M658 147 L694 147"/>
+  <path class="arrow" d="M658 222 L694 222"/>
+  <path class="arrow" d="M658 296 L694 300"/>
+  <path class="arrow" d="M658 357 L694 373"/>
+
+  <!-- Footer notes -->
+  <rect class="group" x="24" y="438" width="1072" height="58"/>
+  <text class="t" x="44" y="460">Design intent</text>
+  <text class="t2" x="44" y="477">Reproducible ML operations, gated promotion/rollback, and benchmarked evaluation using forward/live predictions.</text>
+  <text class="t2" x="44" y="491">Public artifact documents process quality and system design without exposing production IP.</text>
 </svg>
